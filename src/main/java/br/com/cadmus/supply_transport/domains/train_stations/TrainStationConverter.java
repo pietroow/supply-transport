@@ -1,4 +1,4 @@
-package br.com.cadmus.supply_transport.uber_on_rails;
+package br.com.cadmus.supply_transport.domains.train_stations;
 
 import br.com.cadmus.supply_transport.exception_handler.exceptions.FetchFileException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,17 +14,17 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-class UberOnRailsConverter {
+class TrainStationConverter {
 
-    private static final String UBER_ON_RAILS_PATH = "\\files\\uberOnRails.json";
-    private static final String FETCH_FAIL_MESSAGE = "Failed to fetch uber on rails file.";
+    private static final String TRAIN_STATION_PATH = "\\files\\trainStations.json";
+    private static final String FETCH_FAIL_MESSAGE = "Failed to fetch train stations file.";
 
-    public static List<UberOnRailsFile> getList() {
+    public static List<TrainStation> getList() {
         ObjectMapper mapper = new ObjectMapper();
-        ClassPathResource classPathResource = new ClassPathResource(UBER_ON_RAILS_PATH);
+        ClassPathResource classPathResource = new ClassPathResource(TRAIN_STATION_PATH);
         try {
             InputStream inputStream = classPathResource.getInputStream();
-            return Arrays.asList(mapper.readValue(inputStream, UberOnRailsFile[].class));
+            return Arrays.asList(mapper.readValue(inputStream, TrainStation[].class));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,3 +32,4 @@ class UberOnRailsConverter {
     }
 
 }
+

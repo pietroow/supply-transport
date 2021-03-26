@@ -1,4 +1,4 @@
-package br.com.cadmus.supply_transport.itrain;
+package br.com.cadmus.supply_transport.domains.companies.itrain;
 
 import br.com.cadmus.supply_transport.exception_handler.exceptions.FetchFileException;
 import com.opencsv.bean.CsvToBeanBuilder;

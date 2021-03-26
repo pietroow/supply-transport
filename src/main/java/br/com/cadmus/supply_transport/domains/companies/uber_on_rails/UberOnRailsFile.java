@@ -1,4 +1,4 @@
-package br.com.cadmus.supply_transport.uber_on_rails;
+package br.com.cadmus.supply_transport.domains.companies.uber_on_rails;
 
 import lombok.Getter;
 

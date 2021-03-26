@@ -1,4 +1,4 @@
-package br.com.cadmus.supply_transport.itrain;
+package br.com.cadmus.supply_transport.domains.companies.itrain;
 
 import com.opencsv.bean.CsvBindByName;
 import lombok.Getter;
