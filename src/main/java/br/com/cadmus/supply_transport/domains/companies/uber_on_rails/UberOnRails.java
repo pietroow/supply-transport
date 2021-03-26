@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Objects;
 
 @Getter
 public class UberOnRails extends Generic {

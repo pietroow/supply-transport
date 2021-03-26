@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateUtil {
 
-    public static LocalDate convertFromPattern(String date, String pattern){
+    public static LocalDate convertFromPattern(String date, String pattern) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
         return LocalDate.parse(date, dateTimeFormatter);
     }
