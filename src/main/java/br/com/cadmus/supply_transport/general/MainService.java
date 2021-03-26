@@ -2,9 +2,9 @@ package br.com.cadmus.supply_transport.general;
 
 import br.com.cadmus.supply_transport.domains.train_stations.TrainStation;
 import br.com.cadmus.supply_transport.domains.train_stations.TrainStationsFacade;
-import br.com.cadmus.supply_transport.general.objective_a.TripDTO;
-import br.com.cadmus.supply_transport.general.objective_a.ObjectiveAComponent;
-import br.com.cadmus.supply_transport.general.objective_a.TripInformation;
+import br.com.cadmus.supply_transport.general.trip_connections.TripDTO;
+import br.com.cadmus.supply_transport.general.trip_connections.TripConnectionComponent;
+import br.com.cadmus.supply_transport.general.trip_connections.TripInformationParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MainService {
 
-    private final ObjectiveAComponent objectiveAComponent;
+    private final TripConnectionComponent tripConnectionComponent;
     private final TrainStationsFacade trainStationsFacade;
 
-    public List<TripDTO> doObjectiveA(TripInformation tripInformation) {
-        return objectiveAComponent.resolve(tripInformation);
+    public List<TripDTO> getTrips(TripInformationParams tripInformationParams) {
+        return tripConnectionComponent.resolve(tripInformationParams);
     }
 
     public List<TrainStation> findByName(String stationName) {

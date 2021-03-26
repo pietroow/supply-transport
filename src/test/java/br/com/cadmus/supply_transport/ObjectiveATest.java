@@ -1,4 +1,4 @@
-package br.com.cadmus.supply_transport.general;
+package br.com.cadmus.supply_transport;
 
 import br.com.cadmus.supply_transport.IntegrationTestConfiguration;
 import io.restassured.RestAssured;
@@ -16,7 +16,7 @@ public class ObjectiveATest extends IntegrationTestConfiguration {
     @Before
     public void setUp() {
         super.setUp();
-        RestAssured.basePath = "/objectiveA";
+        RestAssured.basePath = "/trips";
     }
 
     @Test
@@ -127,6 +127,30 @@ public class ObjectiveATest extends IntegrationTestConfiguration {
                 .body("[3].steps[0].company", is("UberOnRails"))
                 .body("[3].steps[0].price", is(1199.58f))
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    public void listing_MissingDestinyStationParameter_ReturningException() {
+        given()
+                .queryParam("destinyStation", "CGH")
+                .queryParam("tripDate", "")
+                .contentType(ContentType.JSON)
+                .when()
+                .get()
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    public void listing_MissingOriginStationParameter_ReturningException() {
+        given()
+                .queryParam("originStation", "PMW")
+                .queryParam("tripDate", "")
+                .contentType(ContentType.JSON)
+                .when()
+                .get()
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
 }

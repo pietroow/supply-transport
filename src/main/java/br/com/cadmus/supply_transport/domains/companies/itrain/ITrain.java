@@ -1,13 +1,13 @@
 package br.com.cadmus.supply_transport.domains.companies.itrain;
 
-import br.com.cadmus.supply_transport.domains.companies.Generic;
+import br.com.cadmus.supply_transport.domains.companies.AbstractTripInformation;
 import br.com.cadmus.supply_transport.util.DateUtil;
 import lombok.Getter;
 
 import java.time.LocalTime;
 
 @Getter
-public class ITrain extends Generic {
+public class ITrain extends AbstractTripInformation {
 
     public ITrain(ITrainFile iTrainFile) {
         this.tripNumber = iTrainFile.getTripNumber();
@@ -17,19 +17,6 @@ public class ITrain extends Generic {
         this.departureTime = LocalTime.parse(iTrainFile.getDepartureTime());
         this.arrivalTime = LocalTime.parse(iTrainFile.getArrivalTime());
         this.price = iTrainFile.getPrice();
-    }
-
-    @Override
-    public String toString() {
-        return "ITrain{" +
-                "tripNumber='" + tripNumber + '\'' +
-                ", originStation='" + originStation + '\'' +
-                ", destinyStation='" + destinyStation + '\'' +
-                ", departureDate=" + departureDate +
-                ", departureTime=" + departureTime +
-                ", arrivalTime=" + arrivalTime +
-                ", price=" + price +
-                '}';
     }
 
 }

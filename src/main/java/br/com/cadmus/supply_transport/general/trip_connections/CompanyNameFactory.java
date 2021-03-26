@@ -1,22 +1,22 @@
-package br.com.cadmus.supply_transport.general.objective_a;
+package br.com.cadmus.supply_transport.general.trip_connections;
 
-import br.com.cadmus.supply_transport.domains.companies.Generic;
+import br.com.cadmus.supply_transport.domains.companies.AbstractTripInformation;
 import br.com.cadmus.supply_transport.domains.companies.itrain.ITrain;
 import br.com.cadmus.supply_transport.domains.companies.uber_on_rails.UberOnRails;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.NotImplementedException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompanyNameFactory {
 
-    public static String getFactory(Generic trip) {
+    public static String getFactory(AbstractTripInformation trip) {
         if (trip instanceof ITrain) {
             return "iTrain";
-        }
-        if (trip instanceof UberOnRails) {
+        } else if (trip instanceof UberOnRails) {
             return "UberOnRails";
         }
-        throw new IllegalStateException();
+        throw new NotImplementedException();
     }
 
 }

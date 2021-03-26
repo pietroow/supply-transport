@@ -1,4 +1,4 @@
-package br.com.cadmus.supply_transport.general;
+package br.com.cadmus.supply_transport;
 
 import br.com.cadmus.supply_transport.IntegrationTestConfiguration;
 import io.restassured.RestAssured;

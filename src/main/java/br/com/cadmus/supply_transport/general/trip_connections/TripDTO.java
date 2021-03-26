@@ -1,6 +1,6 @@
-package br.com.cadmus.supply_transport.general.objective_a;
+package br.com.cadmus.supply_transport.general.trip_connections;
 
-import br.com.cadmus.supply_transport.domains.companies.Generic;
+import br.com.cadmus.supply_transport.domains.companies.AbstractTripInformation;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -16,15 +16,15 @@ public class TripDTO {
     private final LocalDateTime arrival;
     private final List<StepDTO> steps;
 
-    public TripDTO(TripInformation tripInformation, Generic trip) {
-        this.origin = tripInformation.getOriginStation();
-        this.destiny = tripInformation.getDestinyStation();
+    public TripDTO(TripInformationParams tripInformationParams, AbstractTripInformation trip) {
+        this.origin = tripInformationParams.getOriginStation();
+        this.destiny = tripInformationParams.getDestinyStation();
         this.steps = mapToStep(List.of(trip));
         this.departure = getDepartureValue();
         this.arrival = getArrivalValue();
     }
 
-    private List<StepDTO> mapToStep(List<Generic> trips) {
+    private List<StepDTO> mapToStep(List<AbstractTripInformation> trips) {
         return trips.stream()
                 .map(StepDTO::new)
                 .collect(Collectors.toList());
@@ -34,14 +34,14 @@ public class TripDTO {
         return steps.stream()
                 .map(StepDTO::getDeparture)
                 .min(LocalDateTime::compareTo)
-                .orElse(null);
+                .orElseThrow();
     }
 
     private LocalDateTime getArrivalValue() {
         return steps.stream()
                 .map(StepDTO::getArrival)
                 .min(LocalDateTime::compareTo)
-                .orElse(null);
+                .orElseThrow();
     }
 
 }
