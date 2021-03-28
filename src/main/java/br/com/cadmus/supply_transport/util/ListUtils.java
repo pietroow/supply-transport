@@ -12,8 +12,8 @@ import java.util.stream.Stream;
 public class ListUtils {
 
     @SafeVarargs
-    public static <E> List<E> concatenarListas(List<? extends E>... listas) {
-        return Stream.of(listas)
+    public static <E> List<E> concatLists(List<? extends E>... lists) {
+        return Stream.of(lists)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }

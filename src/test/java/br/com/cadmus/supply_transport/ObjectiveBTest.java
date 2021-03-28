@@ -1,6 +1,5 @@
 package br.com.cadmus.supply_transport;
 
-import br.com.cadmus.supply_transport.IntegrationTestConfiguration;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.Before;

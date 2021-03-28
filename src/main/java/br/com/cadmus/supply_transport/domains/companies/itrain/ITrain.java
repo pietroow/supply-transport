@@ -3,10 +3,12 @@ package br.com.cadmus.supply_transport.domains.companies.itrain;
 import br.com.cadmus.supply_transport.domains.companies.AbstractTripInformation;
 import br.com.cadmus.supply_transport.util.DateUtil;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalTime;
 
 @Getter
+@ToString(callSuper = true)
 public class ITrain extends AbstractTripInformation {
 
     public ITrain(ITrainFile iTrainFile) {

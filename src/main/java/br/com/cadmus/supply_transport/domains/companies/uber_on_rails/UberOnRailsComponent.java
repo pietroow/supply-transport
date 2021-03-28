@@ -1,15 +1,16 @@
 package br.com.cadmus.supply_transport.domains.companies.uber_on_rails;
 
 import br.com.cadmus.supply_transport.domains.companies.AbstractTripInformation;
-import org.springframework.stereotype.Component;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UberOnRailsComponent {
 
-    public List<AbstractTripInformation> getList() {
+    public static List<AbstractTripInformation> getList() {
         List<UberOnRailsFile> uberOnRailsFileList = UberOnRailsConverter.getList();
         return uberOnRailsFileList.stream()
                 .map(UberOnRails::new)

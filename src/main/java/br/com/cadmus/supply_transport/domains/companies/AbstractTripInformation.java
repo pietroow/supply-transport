@@ -1,13 +1,19 @@
 package br.com.cadmus.supply_transport.domains.companies;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Objects;
 
 @Getter
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
 public abstract class AbstractTripInformation {
 
     protected String tripNumber;
@@ -18,23 +24,12 @@ public abstract class AbstractTripInformation {
     protected LocalTime arrivalTime;
     protected BigDecimal price;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractTripInformation that = (AbstractTripInformation) o;
-        return Objects.equals(tripNumber, that.tripNumber) &&
-                Objects.equals(originStation, that.originStation) &&
-                Objects.equals(destinyStation, that.destinyStation) &&
-                Objects.equals(departureDate, that.departureDate) &&
-                Objects.equals(departureTime, that.departureTime) &&
-                Objects.equals(arrivalTime, that.arrivalTime) &&
-                Objects.equals(price, that.price);
+    public LocalDateTime getDepartureLocalDateTime() {
+        return LocalDateTime.of(departureDate, departureTime);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(tripNumber, originStation, destinyStation, departureDate, departureTime, arrivalTime, price);
+    public LocalDateTime getArrivalLocalDateTime() {
+        return LocalDateTime.of(departureDate, arrivalTime);
     }
 
 }

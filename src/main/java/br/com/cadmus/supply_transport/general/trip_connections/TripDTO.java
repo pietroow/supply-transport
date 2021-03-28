@@ -16,15 +16,15 @@ public class TripDTO {
     private final LocalDateTime arrival;
     private final List<StepDTO> steps;
 
-    public TripDTO(TripInformationParams tripInformationParams, AbstractTripInformation trip) {
+    public TripDTO(TripInformationParams tripInformationParams, List<AbstractTripInformation> trips) {
         this.origin = tripInformationParams.getOriginStation();
         this.destiny = tripInformationParams.getDestinyStation();
-        this.steps = mapToStep(List.of(trip));
+        this.steps = mapToSteps(trips);
         this.departure = getDepartureValue();
         this.arrival = getArrivalValue();
     }
 
-    private List<StepDTO> mapToStep(List<AbstractTripInformation> trips) {
+    private List<StepDTO> mapToSteps(List<AbstractTripInformation> trips) {
         return trips.stream()
                 .map(StepDTO::new)
                 .collect(Collectors.toList());
@@ -40,7 +40,7 @@ public class TripDTO {
     private LocalDateTime getArrivalValue() {
         return steps.stream()
                 .map(StepDTO::getArrival)
-                .min(LocalDateTime::compareTo)
+                .max(LocalDateTime::compareTo)
                 .orElseThrow();
     }
 

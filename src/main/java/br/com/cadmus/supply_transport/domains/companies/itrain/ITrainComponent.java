@@ -1,15 +1,16 @@
 package br.com.cadmus.supply_transport.domains.companies.itrain;
 
 import br.com.cadmus.supply_transport.domains.companies.AbstractTripInformation;
-import org.springframework.stereotype.Component;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ITrainComponent {
 
-    public List<AbstractTripInformation> getList() {
+    public static List<AbstractTripInformation> getList() {
         List<ITrainFile> iTrainFileList = ITrainConverter.getList();
         return iTrainFileList.stream()
                 .map(ITrain::new)

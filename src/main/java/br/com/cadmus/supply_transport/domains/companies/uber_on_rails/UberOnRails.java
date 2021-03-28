@@ -2,11 +2,13 @@ package br.com.cadmus.supply_transport.domains.companies.uber_on_rails;
 
 import br.com.cadmus.supply_transport.domains.companies.AbstractTripInformation;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
+@ToString(callSuper = true)
 public class UberOnRails extends AbstractTripInformation {
 
     public UberOnRails(UberOnRailsFile uberOnRailsFile) {
