@@ -48,19 +48,19 @@ public class TripConnectionComponent {
     private List<TripDTO> getTripsWithConnection(TripInformationParams tripInformationParams, List<AbstractTripInformation> origins, List<AbstractTripInformation> destiny) {
         return origins.stream()
                 .map(origin -> mapToTripsWithConnections(destiny, origin))
-                .filter(routes -> !routes.isEmpty())
+                .filter(trips -> !trips.isEmpty())
                 .map(trips -> new TripDTO(tripInformationParams, trips))
                 .collect(Collectors.toList());
     }
 
     private List<AbstractTripInformation> mapToTripsWithConnections(List<AbstractTripInformation> destiny, AbstractTripInformation origin) {
         List<AbstractTripInformation> trips = new ArrayList<>();
-        List<AbstractTripInformation> conexoes = destiny.stream()
+        List<AbstractTripInformation> connections = destiny.stream()
                 .filter(secondConnection -> verifyConditions(origin, secondConnection))
                 .collect(Collectors.toList());
-        if (!conexoes.isEmpty()) {
+        if (!connections.isEmpty()) {
             trips.add(origin);
-            trips.addAll(conexoes);
+            trips.addAll(connections);
         }
         return trips;
     }
