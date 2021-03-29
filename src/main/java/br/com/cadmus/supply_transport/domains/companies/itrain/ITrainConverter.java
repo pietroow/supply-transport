@@ -7,8 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 
 @Getter
@@ -21,7 +23,9 @@ class ITrainConverter {
     public static List<ITrainFile> getList() {
         try {
             ClassPathResource classPathResource = new ClassPathResource(ITRAIN_PATH);
-            return new CsvToBeanBuilder<ITrainFile>(new FileReader(classPathResource.getFile()))
+            InputStream inputStream = classPathResource.getInputStream();
+            Reader inputStreamReader = new InputStreamReader(inputStream);
+            return new CsvToBeanBuilder<ITrainFile>(inputStreamReader)
                     .withType(ITrainFile.class)
                     .build()
                     .parse();

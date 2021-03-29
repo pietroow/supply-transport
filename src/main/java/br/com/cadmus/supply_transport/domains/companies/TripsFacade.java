@@ -1,7 +1,5 @@
 package br.com.cadmus.supply_transport.domains.companies;
 
-import br.com.cadmus.supply_transport.domains.companies.AbstractTripInformation;
-
 import java.time.LocalDate;
 import java.util.List;
 
