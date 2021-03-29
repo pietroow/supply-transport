@@ -3,14 +3,12 @@ package br.com.cadmus.supply_transport.general.trip_connections;
 import br.com.cadmus.supply_transport.domains.companies.AbstractTripInformation;
 import br.com.cadmus.supply_transport.domains.companies.TripsFacade;
 import br.com.cadmus.supply_transport.util.DateUtil;
-import br.com.cadmus.supply_transport.util.ListUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,17 +21,66 @@ public class TripConnectionComponent {
         List<AbstractTripInformation> tripsWithSameDestiny = tripsFacade.findByDestinyStationIgnoreCase(tripInformationParams.getDestinyStation());
         List<AbstractTripInformation> tripsWithSameOrigin = tripsFacade.findByOriginStationIgnoreCaseAndDepartureDate(tripInformationParams.getOriginStation(), tripInformationParams.getTripDate());
 
-        List<TripDTO> singleTrips = getSingleTrip(tripInformationParams, tripsWithSameOrigin);
-        List<TripDTO> tripsWithConnection = getTripsWithConnection(tripInformationParams, tripsWithSameOrigin, tripsWithSameDestiny);
-        List<TripDTO> allTrips = ListUtils.concatLists(singleTrips, tripsWithConnection);
+//        List<TripDTO> singleTrips = getSingleTrips(tripInformationParams, tripsWithSameOrigin);
+//        List<TripDTO> tripsWithConnection = getTripsWithConnection(tripInformationParams, tripsWithSameOrigin, tripsWithSameDestiny);
+//        List<TripDTO> allTrips = ListUtils.concatLists(singleTrips, tripsWithConnection);
+//        return allTrips.stream()
+//                .sorted(Comparator.comparing(TripDTO::getDeparture))
+//                .sorted(Comparator.comparing(TripDTO::getArrival))
+//                .collect(Collectors.toList());
 
-        return allTrips.stream()
+        return getTripWithManyConnections(tripInformationParams, tripsWithSameOrigin);
+    }
+
+    private List<TripDTO> getTripWithManyConnections(TripInformationParams tripInformationParams, List<AbstractTripInformation> tripsWithSameOrigin) {
+        Map<Integer, List<AbstractTripInformation>> mapGeral = new HashMap<>();
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+
+        tripsWithSameOrigin.forEach(trip -> {
+            if(trip.getDestinyStation().equals("VIX")){
+                System.out.println("EU");
+            }
+            List<AbstractTripInformation> finalDestinies = new ArrayList<>();
+            if (isDestinoFinal(trip.getDestinyStation(), tripInformationParams.getDestinyStation())) {
+                finalDestinies.add(trip);
+                mapGeral.put(atomicInteger.get(), finalDestinies);
+                atomicInteger.incrementAndGet();
+                return;
+            }
+
+            List<AbstractTripInformation> xisde = tripsFacade.findNextTripAfterOrigin(trip);
+            List<AbstractTripInformation> ateQui = new ArrayList<>();
+            ateQui.add(trip);
+            extracted(tripInformationParams, mapGeral, atomicInteger, ateQui, xisde);
+        });
+        return mapGeral.values().stream()
+                .map(o -> new TripDTO(tripInformationParams, o))
                 .sorted(Comparator.comparing(TripDTO::getDeparture))
                 .sorted(Comparator.comparing(TripDTO::getArrival))
                 .collect(Collectors.toList());
     }
 
-    private List<TripDTO> getSingleTrip(TripInformationParams tripInformationParams, List<AbstractTripInformation> origins) {
+    private void extracted(TripInformationParams tripInformationParams, Map<Integer, List<AbstractTripInformation>> mapGeral, AtomicInteger atomicInteger, List<AbstractTripInformation> trip, List<AbstractTripInformation> xisde) {
+        for (AbstractTripInformation segundaItera : xisde) {
+            if (isDestinoFinal(segundaItera.getDestinyStation(), tripInformationParams.getDestinyStation())) {
+                trip.add(segundaItera);
+                mapGeral.put(atomicInteger.get(), trip);
+                atomicInteger.incrementAndGet();
+            } else {
+                List<AbstractTripInformation> nextTrips = tripsFacade.findNextTripAfterOrigin(segundaItera);
+                if(nextTrips.isEmpty())
+                    break;
+                trip.add(segundaItera);
+                extracted(tripInformationParams, mapGeral, atomicInteger, trip, nextTrips);
+            }
+        }
+    }
+
+    private boolean isDestinoFinal(String destinyLoop, String finalDestiny) {
+        return destinyLoop.equalsIgnoreCase(finalDestiny);
+    }
+
+    private List<TripDTO> getSingleTrips(TripInformationParams tripInformationParams, List<AbstractTripInformation> origins) {
         return origins.stream()
                 .filter(origin -> isSameOriginAndDestiny(tripInformationParams, origin))
                 .map(origin -> new TripDTO(tripInformationParams, List.of(origin)))
